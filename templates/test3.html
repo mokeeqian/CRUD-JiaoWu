@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../static/css/layui.css"  media="all">
+</head>
+<body>
+
+
+<table class="layui-table" lay-filter="demoEvent" lay-data="{height: 308, url:'../resources/1.json'}">
+  <thead>
+    <tr>
+      <th lay-data="{field:'id', width:80}">ID</th>
+      <th lay-data="{field:'username', width:80}">用户名</th>
+{#      <th lay-data="{field:'sign', width:'50%', event: 'setSign', style:'cursor: pointer;'}">签名</th>#}
+      <th lay-data="{field:'experience'}">积分</th>
+      <th lay-data="{field:'score'}">评分</th>
+    </tr>
+  </thead>
+</table>
+
+
+<script src="../static/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use('table', function(){
+  var table = layui.table;
+  //监听单元格事件
+  table.on('tool(demoEvent)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'setSign'){
+      layer.prompt({
+        formType: 2
+        ,title: '修改 ID 为 ['+ data.id +'] 的用户签名'
+        ,value: data.sign
+      }, function(value, index){
+        layer.close(index);
+
+        //这里一般是发送修改的Ajax请求
+        // TODO: AJAX请求
+
+
+        //同步更新表格和缓存对应的值
+        obj.update({
+          sign: value
+        });
+
+        // 显示更新后的提示信息
+         var field = obj.field; //得到字段
+        layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+      });
+    }
+  });
+});
+</script>
+
+</body>
+
+
+
+              ,cols:
+                [[ //表头
+                    {type:'checkbox', fixed: 'left'}
+                    ,{field: 'NId', title: '编号', width:'5%', sort: true, fixed: 'left'}
+                    ,{field: 'NTitle', title: '标题', width:'15%', event: 'setTitle', style:'cursor: pointer;'}
+                    ,{field: 'NContent', title: '正文', width:'50%', wrap: true, event: 'setContent', style:'cursor: pointer;'}
+                    ,{field: 'NDate', title: '日期', width: '10%'}
+                    ,{field:'NPublisherId', title: '发布人', width: '10%'},
+                    {fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}
+
+                ]]

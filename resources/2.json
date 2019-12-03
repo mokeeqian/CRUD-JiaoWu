@@ -1,0 +1,20 @@
+{
+  "code": "0",
+  "name": "notice",
+  "comment": "notice表的json数据",
+  "data":
+          [
+            {
+              "id": "001",
+              "title": "关于....",
+              "content": "正文内容111111",
+              "publisherid": "1001"
+            },
+            {
+              "id": "002",
+              "title": "关于....",
+              "content": "正文内容22222",
+              "publisherid": "1002"
+            }
+          ]
+}

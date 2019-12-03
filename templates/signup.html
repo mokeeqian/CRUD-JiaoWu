@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        新用户注册
+    </title>
+</head>
+<body>
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-5 column">
+
+{#            {% set error_msg = get_flashed_messages(with_categories=True, category_filter=["signup"]) %}#}
+{##}
+{#            {% if error_msg %}#}
+{#            <div class="alert alert-success alert-dismissable">#}
+{#				 <button class="close" aria-hidden="true" type="button" data-dismiss="alert">#}
+{#                     ×#}
+{#                 </button>#}
+{#                     <strong> {{ error_msg }} </strong>#}
+{#                <a class="alert-link" href="">alert link</a>#}
+{#			</div>#}
+{#            {% endif %}#}
+
+			<blockquote>
+				<p>
+					提示： 你只需要填写你的学号或工号作为用户名，设置一个密码即可
+				</p> <small>也可以设置你的身份，方便我们处理注册行为</small>
+			</blockquote>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					 <label class="col-sm-2 control-label" for="username">Username</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="username" name="username" type="text" />
+					</div>
+				</div>
+				<div class="form-group">
+					 <label class="col-sm-2 control-label" for="password1">Password</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="password1" name="password1" type="password" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					 <label class="col-sm-2 control-label" for="password2">Password Again</label>
+					<div class="col-sm-10">
+						<input class="form-control" id="password2" name="password2" type="password" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						 <button class="btn btn-default" id="signupsubmit" name="signupsubmit"
+                                 formaction="/signup" formmethod="post" type="submit">
+                             submit
+                         </button>
+					</div>
+				</div>
+            </form>
+
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
