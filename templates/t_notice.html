@@ -141,20 +141,20 @@ layui.use('table', function(){
             } else if(obj.event === 'edit'){    // 编辑
               //layer.alert('当前行数据：<br>'+ JSON.stringify(data))
                 // 后台传数据
-                layer.confirm("真的修改么\n"+'当前数据是：\n' + JSON.stringify(data), function (index) {
+                layer.confirm("真的修改么"+'当前数据是：' + JSON.stringify(data), function (index) {
                     //TODO: 发送AJAX请求
+
                     $.ajax({
                         url: '/t_notice'
                         ,type: 'POST'
-                        //,data: 'hello world'
                         ,data: JSON.stringify(data)
                         ,contentType: 'application/json'        // 这里又是一个坑。。。。
                         //,cache: true
                         //,async: true
-                        ,success: function () {
+                        ,success: function () {                 // 回调函数
                             layer.alert("修改数据成功");
                         }
-                        ,error: function () {
+                        ,error: function () {                   // 回调函数
                             layer.alert("修改数据失败了?");
                         }
 

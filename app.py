@@ -269,7 +269,6 @@ def index():
 # 进行登录验证，若正确，分发不同的身份界面；
 # 若不正确，则返回login.html
 # NOTE: 这里必须使用POST方法，对输入的内容 进行保护
-# TODO: 记录用户登录状态，创建s会话
 @app.route('/signin', methods=['POST'])
 def login():
     # NOTE: 这里如果是get提交的，就使用request.args; 如果是post提交的，就使用request.form
@@ -332,7 +331,6 @@ def s_index():
 
 
 # 教师主页
-# TODO: 完成页面分发, 这里暂时和学生主页内容设为一致的
 @app.route('/t_index')
 def t_index():
     return render_template('t_index.html')
@@ -384,21 +382,27 @@ def t_notice():
     if request.method == 'GET':
         data = to_json_like_data(list(Notice.query.all()))
         return render_template("t_notice.html", posts=data)
+
+    # 接受post过来的数据请求 -> 来自t_notice.html的ajax异步请求
     elif request.method == 'POST':
         data = request.get_json()
         print(data)
 
-        # TODO: 处理返回来的修改后的数据
+        # TODO: 1. 处理返回来的修改后的数据 -> 目前已经实现数据的修改、
+        #       2. 实现操作类型的检测，即： CRUD -> 加一个回传参数option
         import datetime
-        notice = Notice(
-            NId=data['NId'],
-            NTitle=data['NTitle'],
-            NContent=data['NContent'],
-            NDate=datetime.date.fromisoformat(data['NDate']),
-            NPublisherId=data['NPublisherId']
-        )
 
-        notice2 = Notice.query.fliter_by(NId=data['NId']).one()
+        # 按照id来查询
+        notice = Notice.query.filter_by(NId=data['NId']).one()
+
+        # 做修改
+        notice.NId=data['NId'],
+        notice.NTitle=data['NTitle'],
+        notice.NContent=data['NContent'],
+        notice.NDate=datetime.date.fromisoformat(data['NDate']),
+        notice.NPublisherId=data['NPublisherId']
+
+        db.session.commit()
 
         return str(data)
 
