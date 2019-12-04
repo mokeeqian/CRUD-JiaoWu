@@ -55,7 +55,7 @@
 		  <dd><a href="">安全设置</a></dd>
 		</dl>
 	  </li>
-	  <li class="layui-nav-item"><a href="">退了</a></li>
+	  <li class="layui-nav-item"><a href={{ url_for('signout') }}>退了</a></li>
 	</ul>
   </div>
 
@@ -87,9 +87,8 @@
   </div>
 
   <div class="layui-body">
-	<!-- 内容主体区域 -->
-	<div style="padding: 15px;">
-		内容主体区域
+	<div style="padding: 288px;">
+        欢迎 教师 {{ session.get('username') }} 登录教务系统
 	</div>
   </div>
 

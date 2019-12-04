@@ -281,6 +281,7 @@ def login():
         # return render_template('s_index.html')		# 返回的是静态资源
         return redirect(url_for('s_index'))  # 这里使用重定向
     elif privilege and privilege[0] == 2:
+        session['username'] = request.form['username']
         return redirect(url_for('t_index'))
     return render_template('signin.html', posts="用户名或密码错误")
 
@@ -388,21 +389,30 @@ def t_notice():
         data = request.get_json()
         print(data)
 
-        # TODO: 1. 处理返回来的修改后的数据 -> 目前已经实现数据的修改、
-        #       2. 实现操作类型的检测，即： CRUD -> 加一个回传参数option
-        import datetime
+        # 获取操纵类型
+        option = data['Option']
 
-        # 按照id来查询
-        notice = Notice.query.filter_by(NId=data['NId']).one()
+        if option == 'modify':
+            # TODO: 1. 处理返回来的修改后的数据 -> 目前已经实现数据的修改、
+            #       2. 实现操作类型的检测，即： CRUD -> 加一个回传参数option
+            import datetime
 
-        # 做修改
-        notice.NId=data['NId'],
-        notice.NTitle=data['NTitle'],
-        notice.NContent=data['NContent'],
-        notice.NDate=datetime.date.fromisoformat(data['NDate']),
-        notice.NPublisherId=data['NPublisherId']
+            # 按照id来查询
+            notice = Notice.query.filter_by(NId=data['NId']).one()
 
-        db.session.commit()
+            # 做修改
+            notice.NId=data['NId'],
+            notice.NTitle=data['NTitle'],
+            notice.NContent=data['NContent'],
+            notice.NDate=datetime.date.fromisoformat(data['NDate']),
+            notice.NPublisherId=data['NPublisherId']
+
+            db.session.commit()
+
+        elif option == 'delete':
+            notice = Notice.query.filter_by(NId=data['NId']).one()
+            db.session.delete(notice)
+            db.session.commit()
 
         return str(data)
 
