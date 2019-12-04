@@ -384,15 +384,28 @@ def t_notice():
     if request.method == 'GET':
         data = to_json_like_data(list(Notice.query.all()))
         return render_template("t_notice.html", posts=data)
-    else:
-        data = request.data
+    elif request.method == 'POST':
+        data = request.get_json()
         print(data)
+
+        # TODO: 处理返回来的修改后的数据
+        import datetime
+        notice = Notice(
+            NId=data['NId'],
+            NTitle=data['NTitle'],
+            NContent=data['NContent'],
+            NDate=datetime.date.fromisoformat(data['NDate']),
+            NPublisherId=data['NPublisherId']
+        )
+
+        notice2 = Notice.query.fliter_by(NId=data['NId']).one()
+
         return str(data)
 
-@app.route('/test')
+@app.route('/test', methods=['GET','POST'])
 def test():
     # data = request.get_json()
-    data = request.get_data()
+    data = request.get_json()
     print(data)
     return str(data)
 

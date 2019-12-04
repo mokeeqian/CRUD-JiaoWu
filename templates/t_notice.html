@@ -28,7 +28,7 @@
 <!-- layui 集成的按钮控件 -->
 <script id="barDemo" type="text/html">
   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>     <!-- 指定对应的事件 -->
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -37,6 +37,9 @@
 <script>
 layui.use('table', function(){
   var table = layui.table;
+
+  // 切记，一定要做个替换！！ layui和jquery中的 $ 不兼容！！！
+  var $ = layui.$;
 
       // 动态渲染表格
       table.render(
@@ -51,8 +54,8 @@ layui.use('table', function(){
                     ,{field: 'NId', title: '编号', width:'5%', sort: true, fixed: 'left'}
                     ,{field: 'NTitle', title: '标题', width:'15%', event: 'setTitle', style:'cursor: pointer;'}
                     ,{field: 'NContent', title: '正文', width:'50%', wrap: true, event: 'setContent', style:'cursor: pointer;'}
-                    ,{field: 'NDate', title: '日期', width: '10%'}
-                    ,{field:'NPublisherId', title: '发布人', width: '10%'},
+                    ,{field: 'NDate', title: '日期', width: '10%', event: 'setDate'}
+                    ,{field:'NPublisherId', title: '发布人', width: '10%', event: 'setPublisherId'},
                     {fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}
 
                 ]]
@@ -66,67 +69,103 @@ layui.use('table', function(){
           table.on('checkbox(demo)', function(obj){
             console.log(obj)
           });
+
+
           //监听工具条
           table.on('tool(demo)', function(obj){
             var data = obj.data;
+
+            if(obj.event === 'setTitle'){
+              layer.prompt({
+                formType: 2
+                ,title: '修改 ID 为 ['+ data.NId +'] 的通知标题'
+                ,value: data.NTitle
+              }, function(value, index){
+                layer.close(index);
+
+                //这里一般是发送修改的Ajax请求， 暂时先不提交
+
+                //同步更新表格和缓存对应的值
+                obj.update({
+                    NTitle: value
+                });
+            layer.msg('[ID: '+ data.NId +'] ' + obj.field + ' 字段更改为未提交的值：'+ value);  // 消息弹窗
+
+              });
+            }
+            else if (obj.event === 'setContent') {
+                layer.prompt({
+                    formType: 2
+                    ,title: '修改 ID 为 ['+ data.NId +'] 的通知正文'
+                    ,value: data.NContent
+                 }, function(value, index){
+                layer.close(index);
+
+                //这里一般是发送修改的Ajax请求， 暂时先不提交
+
+                //同步更新表格和缓存对应的值
+                obj.update({
+                    NContent: value
+                });
+            layer.msg('[ID: '+ data.NId +'] ' + obj.field + ' 字段更改为未提交的值：'+ value );  // 消息弹窗
+
+              });
+            }
+            else if (obj.event === 'setDate') {
+                layer.prompt({
+                    formType: 2
+                    ,title: '修改 ID 为 ['+ data.NId +'] 的通知日期'
+                    ,value: data.NDate
+                }, function(value, index){
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求， 暂时先不提交
+
+                    //同步更新表格和缓存对应的值
+                    obj.update({
+                        NDate: value
+                    });
+                layer.msg('[ID: '+ data.NId +'] ' + obj.field + ' 字段更改为未提交的值：'+ value);  // 消息弹窗
+                });
+            }
+
             if(obj.event === 'detail'){     // 查看
               //layer.msg('ID：'+ data.NId + ' 的查看操作');
                 //TODO: 信息格式化
-                layer.alert(JSON.stringify(data));
+                layer.alert('当前视图中的信息是: \<\b\r\>' + JSON.stringify(data));
             } else if(obj.event === 'del'){     // 删除
               layer.confirm('真的删除行么', function(index){
                 obj.del();
                 layer.close(index);
               });
             } else if(obj.event === 'edit'){    // 编辑
-              //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+              //layer.alert('当前行数据：<br>'+ JSON.stringify(data))
+                // 后台传数据
+                layer.confirm("真的修改么\n"+'当前数据是：\n' + JSON.stringify(data), function (index) {
+                    //TODO: 发送AJAX请求
+                    $.ajax({
+                        url: '/t_notice'
+                        ,type: 'POST'
+                        //,data: 'hello world'
+                        ,data: JSON.stringify(data)
+                        ,contentType: 'application/json'        // 这里又是一个坑。。。。
+                        //,cache: true
+                        //,async: true
+                        ,success: function () {
+                            layer.alert("修改数据成功");
+                        }
+                        ,error: function () {
+                            layer.alert("修改数据失败了?");
+                        }
 
-                  layer.prompt({
-                    formType: 2
-                    ,title: '修改 ID 为 ['+ data.NId +'] 的通知记录'
-                    ,value: data.NTitle
-                  }, function(value, index){
-                    layer.close(index);
-
-                    //这里一般是发送修改的Ajax请求
-                    // TODO: AJAX请求
-                          var new_data = {
-                              'NId': $("#NId").val(),
-                              'NTitle': $("#NTitle").val(),
-                              'NContent': $("#NContent").val(),
-                              'NDate': $("#NDate").val(),
-                              'NPublisherId': $("#NPublisherId").val()
-                          };
-                          $.ajax(
-                              {
-                                  type: 'GET',
-                                  url: '/test',      // 给flask 视图函数
-                                  data: "hello",
-                                  //data: JSON.stringify( new_data ), // post 一个json数据包
-                                  //cache: true,
-                                  //async: true,
-                                  success: function (data) {
-                                          alert("修改成功")
-                                      },
-                                  error: function () {
-                                      alert("失败了???")
-                                  }
-                              });
-
-
-                    //同步更新表格和缓存对应的值
-                    obj.update({
-                      NTitle: value
                     });
 
-                    // 显示更新后的提示信息
-                     let field = obj.field; //得到字段
-                    layer.msg('[ID: '+ data.NId +'] ' + field + ' 字段更改为：'+ value);  // 消息弹窗
-                  });
+                    layer.close(index);
+                });
             }
           });
 
-          var $ = layui.$, active = {
+          var active = {        // yuan $ = layui.$
             getCheckData: function(){ //获取选中数据
               var checkStatus = table.checkStatus('idTest')
               ,data = checkStatus.data;
@@ -152,3 +191,5 @@ layui.use('table', function(){
 
 </body>
 </html>
+
+<!-- 目前数据交互测试通过 -->
