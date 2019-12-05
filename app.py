@@ -393,8 +393,6 @@ def t_notice():
         option = data['Option']
 
         if option == 'modify':
-            # TODO: 1. 处理返回来的修改后的数据 -> 目前已经实现数据的修改、
-            #       2. 实现操作类型的检测，即： CRUD -> 加一个回传参数option
             import datetime
 
             # 按照id来查询
@@ -414,7 +412,20 @@ def t_notice():
             db.session.delete(notice)
             db.session.commit()
 
+        elif option == 'add':
+            import datetime
+            notice = Notice(
+                NId=data['NId'],
+                NTitle=data['NTitle'],
+                NContent=data['NContent']
+                # NDate=datetime.date.fromisoformat(data['NDate'])
+            )
+
+            db.session.add(notice)
+            db.session.commit()
+
         return str(data)
+
 
 @app.route('/test', methods=['GET','POST'])
 def test():

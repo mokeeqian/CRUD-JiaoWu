@@ -20,7 +20,7 @@
   <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
   <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
   <button class="layui-btn" data-type="isAll">验证是否全选</button>
-  <button class="layui-btn" data-type="addRecord">新增一条记录</button>
+  <button class="layui-btn" id="addRecordBtn">新增一条记录</button>
 </div>
 
 
@@ -68,6 +68,45 @@ layui.use('table', function(){
       );
 
 
+            // 监听添加记录按钮
+            $('#addRecordBtn').on('click', function () {
+                var old_data = table.cache['idTest'];
+
+                // FIXME: demo-V1 这里先把他写死，后期把ajax请求放到下面。
+                // 即： 先生成一条空记录，然后由用户修改后，再提交到后台
+                var insert_data = {
+                    'NId': '1004'
+                    ,'NTitle': '插入测试标题'
+                    ,'NContent': '插入测试正文'
+                    //,'NDate': '2019-12-5'
+                    //,'NPublisherId': '1001'
+                };
+
+                layer.alert(JSON.stringify(old_data));
+                old_data.push(insert_data);
+
+                insert_data['Option'] = 'add';
+
+                // TODO: 后台逻辑实现
+                table.reload('idTest', {
+                    data: old_data
+                });
+
+                $.ajax({
+                    url: 't_notice',
+                    type: 'POST',
+                    data: JSON.stringify(insert_data),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function () {
+                        layer.alert("你插入的数据是 " + JSON.stringify(insert_data));
+                    },
+                    error: function () {
+                        layer.alert("插入数据失败");
+                    }
+                });
+
+            });
 
           //监听表格复选框选择
           table.on('checkbox(demo)', function(obj){
