@@ -1,5 +1,5 @@
 # CRUD-JiaoWu
-##CopyRight
+## CopyRight
 Jipeng Qian 2019- <br>
 Under GPL license
 ## Abort Me
