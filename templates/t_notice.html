@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>公告管理-教师端</title>
@@ -8,12 +9,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="../static/css/layui.css"  media="all">
 </head>
-<body>
-<div style="margin-bottom: 5px;">
 
+<body>
+
+<div style="margin-bottom: 5px;">
 <!-- 示例-970 -->
 <ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-slot="3820120620" data-ad-client="ca-pub-6111334333458862"></ins>
-
 </div>
 
 <div class="layui-btn-group demoTable">
@@ -23,10 +24,8 @@
   <button class="layui-btn" id="addRecordBtn">新增一条记录</button>
 </div>
 
-
 <table id="demo" class="layui-table" lay-filter="demo">  </table>
 
-<!-- layui 集成的按钮控件 -->
 <script id="barDemo" type="text/html">
   <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>     <!-- 指定对应的事件 -->
   <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
@@ -35,16 +34,17 @@
 
 
 <script src="../static/layui.js" charset="utf-8"></script>
+
+<!-- 这段js代码是核心 -->
 <script>
-layui.use('table', function(){
-  var table = layui.table;
+    layui.use('table', function(){
+        var table = layui.table;
+        // 切记，一定要做个替换！！ layui和jquery中的 $ 不兼容！！！
+        var $ = layui.$;
 
-  // 切记，一定要做个替换！！ layui和jquery中的 $ 不兼容！！！
-  var $ = layui.$;
-
-      // 动态渲染表格
-      table.render(
-          {
+        // 动态渲染表格
+        table.render(
+            {
               elem: '#demo'     // table 的id
               ,id: 'idTest'     // 设置一个id，给下面的三个按钮函数作为唯一的标识
               ,height: 'full-200'
@@ -63,59 +63,60 @@ layui.use('table', function(){
 
                 ]]
               ,data: {{ posts | tojson }}    // 这里是数据接口， 直接引用接受到的list数据
+            }
+        );
 
-          }
-      );
 
+        // 监听添加记录按钮
+        $('#addRecordBtn').on('click', function () {
+            var old_data = table.cache['idTest'];
 
-            // 监听添加记录按钮
-            $('#addRecordBtn').on('click', function () {
-                var old_data = table.cache['idTest'];
+            // FIXME: demo-V1 这里先把他写死，后期把ajax请求放到下面。
+            // 即： 先生成一条空记录，然后由用户修改后，再提交到后台
+            var insert_data = {
+                'NId': '1004'
+                ,'NTitle': '插入测试标题'
+                ,'NContent': '插入测试正文'
+                //,'NDate': '2019-12-5'
+                //,'NPublisherId': '1001'
+            };
 
-                // FIXME: demo-V1 这里先把他写死，后期把ajax请求放到下面。
-                // 即： 先生成一条空记录，然后由用户修改后，再提交到后台
-                var insert_data = {
-                    'NId': '1004'
-                    ,'NTitle': '插入测试标题'
-                    ,'NContent': '插入测试正文'
-                    //,'NDate': '2019-12-5'
-                    //,'NPublisherId': '1001'
-                };
+            layer.alert(JSON.stringify(old_data));
 
-                layer.alert(JSON.stringify(old_data));
-                old_data.push(insert_data);
+            // 加上一条新的记录
+            old_data.push(insert_data);
 
-                insert_data['Option'] = 'add';
+            insert_data['Option'] = 'add';
 
-                // TODO: 后台逻辑实现
-                table.reload('idTest', {
-                    data: old_data
-                });
-
-                $.ajax({
-                    url: 't_notice',
-                    type: 'POST',
-                    data: JSON.stringify(insert_data),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function () {
-                        layer.alert("你插入的数据是 " + JSON.stringify(insert_data));
-                    },
-                    error: function () {
-                        layer.alert("插入数据失败");
-                    }
-                });
-
+            // 重载表格信息
+            table.reload('idTest', {
+                data: old_data
             });
 
-          //监听表格复选框选择
-          table.on('checkbox(demo)', function(obj){
-            console.log(obj)
-          });
+            $.ajax({
+                url: 't_notice',
+                type: 'POST',
+                data: JSON.stringify(insert_data),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function () {
+                    layer.alert("插入数据成功");
+                },
+                error: function () {
+                    layer.alert("插入数据失败");
+                }
+            });
+
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function(obj){
+        console.log(obj)
+        });
 
 
-          //监听工具条
-          table.on('tool(demo)', function(obj){
+        //监听工具条
+        table.on('tool(demo)', function(obj){
             var data = obj.data;
 
 
@@ -228,10 +229,9 @@ layui.use('table', function(){
                 });
             }
 
+        });     // 监听表格编辑结束
 
-          });
-
-          var active = {        // yuan $ = layui.$
+        var active = {        // yuan $ = layui.$
             getCheckData: function(){ //获取选中数据
               var checkStatus = table.checkStatus('idTest')
               ,data = checkStatus.data;
@@ -246,16 +246,15 @@ layui.use('table', function(){
               var checkStatus = table.checkStatus('idTest');
               layer.msg(checkStatus.isAll ? '全选': '未全选')
             }
-          };
+        };
 
-          $('.demoTable .layui-btn').on('click', function(){
+        $('.demoTable .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-          });
+        });
+
     });
 </script>
 
 </body>
 </html>
-
-<!-- 目前数据交互测试通过 -->

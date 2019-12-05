@@ -417,8 +417,8 @@ def t_notice():
             notice = Notice(
                 NId=data['NId'],
                 NTitle=data['NTitle'],
-                NContent=data['NContent']
-                # NDate=datetime.date.fromisoformat(data['NDate'])
+                NContent=data['NContent'],
+                NDate=datetime.date.fromisoformat(data['NDate'])    # 必须是ANSCI字符??
             )
 
             db.session.add(notice)
