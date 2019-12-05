@@ -7,7 +7,7 @@
 #  you should receive a copy of the copyright,
 #  together with this source code.
 #  Have fun with your favor!
-
+import datetime
 import json
 from flask import Flask, request, render_template, flash, session
 from flask import redirect
@@ -205,7 +205,7 @@ class Course(db.Model):
     CId = db.Column(db.String(20), primary_key=True)
     CName = db.Column(db.String(20))
     CTeacherId = db.Column(db.String(20), db.ForeignKey('tb_teacher.TId'))
-    CClassrome = db.Column(db.String(20))
+    CClassroom = db.Column(db.String(20))
     CTime = db.Column(db.String(20))
     CHours = db.Column(db.Integer)
     CVolum = db.Column(db.Integer)
@@ -223,17 +223,25 @@ class Grade(db.Model):
 
     # 重写这个方法，用orm查询得到的query对象结果就是这个方法的返回值，很方便
     # 可惜的是，返回值只能是str类型，我需要List类型，所以只能强制转换一下
+    # emmmmmmmmmmmmm 这样强制转换貌似后面很麻烦。。。。
     def __repr__(self):
+        return '<Grade %r' %self.Grade
+
+    def to_list(self):
         grades = list()
         grades.append(self.CId)
-        grades.append(self.SId)
-        # cname = Course.query.filter_by(CId=self.CId).one()[1]
-        # cteacher_id = Course.query.filter_by(CId=self.CId).one()[2]
-        # cteacher_name = Teacher.query.filter_by(TId=cteacher_id).one()[1]
-        # grades.append(cname)
-        # grades.append(cteacher_name)
-        grades.append(self.Grade)
-        return str(grades)
+        # grades.append(self.SId)
+        cname = Course.query.filter_by(CId=self.CId).one().CName
+
+        print("======== " + cname + " ========")
+
+        cteacher_id = Course.query.filter_by(CId=self.CId).one().CTeacherId
+        cteacher_name = Teacher.query.filter_by(TId=cteacher_id).one().TName
+        grades.append(cname)
+        grades.append(cteacher_name)
+
+        grades.append(self.Grade)   #FIXME: 修改变量名，和类名重复了
+        return grades
 
 
 class Notice(db.Model):
@@ -246,13 +254,16 @@ class Notice(db.Model):
     # NPublisherName = db.Column(db.String(20))
 
     def __repr__(self):
+        return '<Notice %r' %self.NId
+
+    def to_list(self):
         notices = list()
         notices.append(self.NId)
         notices.append(self.NTitle)
         notices.append(self.NContent)
-        notices.append(self.NDate)
-        return str(notices)
+        notices.append(datetime.date.strftime(self.NDate, '%Y-%m-%d'))  # 注意这里是Date对象,需要转为str
 
+        return notices
 
 
 """
@@ -354,16 +365,18 @@ def s_course():
 
 # **当前学生用户**
 # 查询自己的所有成绩
-# TODO: 多表查询
+# FIXME: 多表查询
 @app.route('/grade/<sid>')
 def s_grade(sid):
     # grade = db.session.execute("SELECT * FROM tb_grade WHERE SId=" + sid)
     # 返回的是一个Grade对象列表
-    grade_obj_list = Grade.query.filter_by(SId=sid).all()
+    query_grades = Grade.query.filter_by(SId=sid).all()
 
     grades = list()
-    for obj in grade_obj_list:
-        grades.append(obj.to_list())
+    for grade in query_grades:
+        # print(grade)
+        grades.append(grade.to_list())
+    print(grades)
     return render_template('grade.html', posts=grades)
 
 
@@ -374,6 +387,8 @@ def s_notice():
     data = list()
     for notice in notices:
         data.append(notice.to_list())  # list contains a list
+
+    print(data)
     return render_template("s_notice.html", posts=data)
 
 
@@ -418,7 +433,7 @@ def t_notice():
                 NId=data['NId'],
                 NTitle=data['NTitle'],
                 NContent=data['NContent'],
-                NDate=datetime.date.fromisoformat(data['NDate'])    # 必须是ANSCI字符??
+                # NDate=datetime.date.fromisoformat(data['NDate'])    # 必须是ANSCI字符??
             )
 
             db.session.add(notice)
