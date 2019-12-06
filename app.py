@@ -52,8 +52,6 @@ manager.add_command('db', MigrateCommand)
 """
 工具
 """
-
-
 # 获取指定表的全部数据
 def get_table_data(table, conditions=None):
     conn = pymysql.connect(
@@ -162,8 +160,6 @@ def to_json_like_data(data:list):
 """
 模型
 """
-
-
 class User(db.Model):
     __tablename__ = 'tb_user'
     # NOTE: 字段名必须与数据库的字段名一致
@@ -269,8 +265,6 @@ class Notice(db.Model):
 """
 视图
 """
-
-
 # 启动服务器的第一个界面
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -317,7 +311,6 @@ def signup():
                 return redirect(url_for('index'))
 
             # 用户身份甄别
-
             usr = User(Id=username, Pwd=password1, Privilege=1)
             try:
                 db.session.add(usr)
@@ -434,6 +427,8 @@ def t_notice():
                 NTitle=data['NTitle'],
                 NContent=data['NContent'],
                 # NDate=datetime.date.fromisoformat(data['NDate'])    # 必须是ANSCI字符??
+                NDate=datetime.date.today(),
+                NPublisherId=session.get('username')
             )
 
             db.session.add(notice)

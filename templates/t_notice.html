@@ -69,27 +69,25 @@
 
         // 监听添加记录按钮
         $('#addRecordBtn').on('click', function () {
+            layer.msg("已为你创建一条空的记录行，你先修改它吧");
+
             var old_data = table.cache['idTest'];
 
-            // FIXME: demo-V1 这里先把他写死，后期把ajax请求放到下面。
-            // 即： 先生成一条空记录，然后由用户修改后，再提交到后台
+            // 原先表中最后一行的index
+            //var pre_index = old_data[old_data.length-1]['LAY_TABLE_INDEX'];
+
+            var pre_id = parseInt(old_data[old_data.length-1]['NId']);
+
+            //layer.alert(pre_id);
+
             var insert_data = {
-                'NId': '1004'
-                ,'NTitle': '插入测试标题'
-                ,'NContent': '插入测试正文'
-                //,'NDate': '2019-12-5'
-                //,'NPublisherId': '1001'
+                //'NId': 1002+pre_index,
+                'NId': pre_id + 1
+                ,'NTitle': '请输入你的标题'
+                ,'NContent': '请输入你的正文'
+                //,'NDate': ''    // 由后台自动设为当前日期
+                //,'NPublisherId': '请输入你的id'
             };
-
-            var insert_data2 = {
-                'NId': '',
-                'NTitle': '',
-                'NContent': '',
-                'NDate': '',
-                'NPublisherId': ''
-            };
-
-            layer.alert(JSON.stringify(old_data));
 
             // 加上一条新的记录
             old_data.push(insert_data);
@@ -108,10 +106,10 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function () {
-                    layer.alert("插入数据成功");
+                    //layer.alert("插入初始化数据成功，现在去修改吧");
                 },
                 error: function () {
-                    layer.alert("插入数据失败");
+                    //layer.alert("插入数据失败");
                 }
             });
 

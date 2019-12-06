@@ -10,6 +10,7 @@
 </head>
 <body>
 
+
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
@@ -18,6 +19,14 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="container">
 	<div class="row clearfix">
+
+        <div class="page-header" >
+
+            <p1>
+                你好 {{ session.get('username') }} 同学，以下你的所有成绩
+            </p1>
+        </div>
+
 		<div class="col-md-12 column">
 			<table class="table table-hover table-bordered">
 
