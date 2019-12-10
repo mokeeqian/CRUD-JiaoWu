@@ -369,7 +369,7 @@ def s_grade(sid):
     for grade in query_grades:
         # print(grade)
         grades.append(grade.to_list())
-    print(grades)
+    # print(grades)
     return render_template('grade.html', posts=grades)
 
 
@@ -437,12 +437,18 @@ def t_notice():
         return str(data)
 
 
+@app.route('/t_charts', methods=['POST', 'GET'])
+def t_charts():
+    return render_template('t_charts.html')
+
+
 @app.route('/test', methods=['GET','POST'])
 def test():
     # data = request.get_json()
     data = request.get_json()
     print(data)
     return str(data)
+
 
 @app.route('/signout')
 def signout():

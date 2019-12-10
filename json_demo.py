@@ -7,9 +7,16 @@
 
 import json
 
-data = json.loads('[{"id":"001","title":"关于....","content":"正文内容111111","publisherid":"1001"},{"id":"002","title":"关于....","content":"正文内容22222","publisherid":"1002"}]')
 
-print(data[0]['id'])
+with open('.\\score.json', 'r', encoding='utf8') as f:
+    source = f.read()
 
-data = json.dumps(data)
+source = json.loads(source)
 
+zhuguan = list()
+tingli = list()
+yuedu = list()
+
+for item in source:
+    if item['class'] == '价191':
+        zhuguan.append(item['主观'])
