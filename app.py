@@ -441,6 +441,15 @@ def t_notice():
 def t_charts():
     return render_template('t_charts.html')
 
+# 静态博客界面
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+
+
+@app.route('/weather')
+def weather():
+    return render_template('weather.html')
 
 @app.route('/test', methods=['GET','POST'])
 def test():
