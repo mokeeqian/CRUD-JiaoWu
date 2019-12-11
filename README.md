@@ -17,5 +17,5 @@ Follow my github account at:<br>
 OR
 
 See my blog at:<br>
-[blog]https://lingweiwei.tk
+[blog]https://www.lingweiwei.tk
 
