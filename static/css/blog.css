@@ -1,0 +1,308 @@
+body{
+               margin:0;
+               padding:0;
+               }
+               
+               #container{
+               width:1349px;
+               height:1500px;
+               background-color:#eee;
+               }
+               
+               #header{
+               background-color:white;
+               height:50px;
+               width:1349px;
+               }
+               
+               #header .title li{
+               height:50px;
+               line-height:50px;
+               font-size:15px;
+               margin-left:20px;
+               margin-right:10px;
+               list-style-type:none;
+               float:left;
+               }
+               .title li a:link{
+               color:black;
+               text-decoration:none;
+               }
+               .title li a:hover{
+               color:red;
+               }
+               #header .subtitle li {
+               height:50px;
+               line-height:50px;
+               float:left;
+               list-style-type:none;
+               font-size:15px;
+               margin-right:10px;
+               color:black;
+               }
+               .subtitle li a:link{
+               color:black;
+               text-decoration:none;
+               }
+               .subtitle li a:hover{
+               color:red;
+               }
+               #main{
+               width:1349px;
+               height:1500px;
+               background-image:url(./images/bkg.jpg);
+               }
+               #main h{
+               margin:50px 900px 50px  80px;
+               font-size:40px;
+               font-weight:700px;
+               float:left;
+               }
+               #main .mana li {
+               float:left;
+               margin-right:20px;
+               margin-top:40px;
+               list-style-type:none;
+               font-size:15px;
+               color:white;
+               }
+               .mana li a{
+               border:1px solid white;
+               padding:2px;
+               color:white;
+               text-decoration:none;
+               }
+               .mana a:hover{
+               background:red;
+               color:white;
+               }
+               
+               
+               #lside{
+               width:800px;
+               height:700px;
+               background:white;
+               margin:0px 50px 50px 80px;
+               padding:5px;
+               float:left;
+               }
+               
+               #rside{
+               width:300px;
+               height:1000px;
+               background:white;
+               float:left;
+               }
+               
+               #state h{
+               margin:20px 400px 20px 15px;
+               color:#999;
+               font-size:18px;
+               border:1px solid gray;
+               padding:2px;
+               font-family:'PingFang SC','Microsoft YaHei',SimHei,Arial,SimSun;
+               }
+               #state img{
+               margin:20px 20px 10px 15px;
+               }
+               #artitlrtitle h{
+               font-size:20px;
+               font-weight:700px;
+               margin:10px 200px 10px 15px;
+               float:left;
+               clear:both;
+               }
+               
+               #content p{
+               font-size:10px;
+               margin:5px 15px;
+               clear:both;
+               color:#999;
+               }
+               #time h{
+               margin:3px 10px 5px 15px;
+               font-size:15px;
+               float:left;
+               color:#999;
+               }
+               #time .oth{
+               margin:3px 10px 5px 15px;
+               font-size:15px;
+               float:left;
+               color:#999;
+               }
+               
+               #head img{
+               margin:15px;
+               }
+               
+               #head p{
+               float:left;
+               font-size:20px;
+               margin:30px 10px;
+               font-weight:700px;
+               color:#999;
+               font-weight:600px;
+               }
+               
+               #four .yuan{
+               font-size:16px;
+               font-weight:700px;
+               margin:5px 10px 10px 40px;
+               color:gray;
+               float:left;
+               }
+               
+               #four  .num1{
+               font-size:14px;
+               font-weight:700px;
+               margin:5px 6px 20px 51px;
+               color:#999;
+               }
+               #four .num2{
+               font-size:14px;
+               font-weight:700px;
+               margin:5px 7px 20px 50px;
+               color:#999;
+               }
+               #four .num3{
+               font-size:14px;
+               font-weight:700px;
+               margin:5px 7px 20px 46px;
+               color:#999;
+               }
+               #four .num4{
+               font-size:14px;
+               font-weight:700px;
+               margin:5px 7px 20px 29px;
+               color:#999;
+               }
+               #intro{
+               height:260px;
+               width:300px;
+               margin-top:10px;
+               }
+               #intro .ff{
+               font-size:10px;
+               margin:5px 20px;
+               clear:both;
+               }
+               #fenlei h{
+               font-size:15px;
+               font-weight:700px;
+               float:left;
+               margin:10px 20px;
+               font-weight:700px;
+               }
+               #fenlei p .ti1 {
+               float:left;
+               clear:left;
+               font-size:10px;
+               margin:5px 20px;
+               color:gray;
+               text-decoration:none;
+               }
+               
+               #fenlei p .ti1:hover{
+               color:red;
+               }
+               #fenlei .tii1{
+               float:right;
+               clear:right;
+               font-size:8px;
+               margin:5px 20px;
+               color:#bbb;
+               }
+               #cundang h{
+               font-size:15px;
+               font-weight:700px;
+               float:left;
+               clear:left;
+               margin:20px 20px;
+               }
+               #cundang p .ti1{
+               float:left;
+               clear:left;
+               font-size:10px;
+               margin:5px 20px;
+               color:gray;
+               text-decoration:none;
+               }
+               #cundang p .ti1:hover{
+               color:red;
+               }
+               #cundang .tii1{
+               float:right;
+               clear:right;
+               font-size:8px;
+               margin:5px 20px;
+               color:#bbb;
+               }
+               
+               #paiming h{
+               font-size:15px;
+               font-weight:700px;
+               float:left;
+               clear:left;
+               margin:20px 20px;
+               font-weight:700px;
+               }
+               #pm .tiname{
+               float:left;
+               clear:left;
+               font-size:15px;
+               margin:5px 20px;
+               color:gray;
+               text-decoration:none;
+               }
+               #pm .tiname:hover{
+               color:red;
+               }
+               #pm .tinum{
+               float:left;
+               clear:left;
+               font-size:8px;
+               margin:3px 20px;
+               color:#bbb;
+               }
+               #callus h{
+               font-size:15px;
+               font-weight:700px;
+               float:left;
+               clear:left;
+               margin:20px 20px;
+               font-weight:700px;
+               }
+               
+               #callus .us{
+               font-size:10px;
+               margin:5px 2px 5px 20px;
+               float:left;
+               clear:left;
+               }
+               #callus .weibo{
+               font-size:10px;
+               margin:5px 5px;
+               padding-right:80px;
+               float:right;
+               clear:right;
+               }
+               #callus .us1{
+               font-size:10px;
+               margin:5px 20px;
+               float:left;
+               clear:left;
+               }
+               #callus .oo1{
+               margin:40px 80px 10px 80px;
+               font-size:10px;
+               float:left;
+               clear:left;
+               }
+               #callus .oo2{
+               margin:10px 80px 10px 80px;
+               font-size:10px;
+               float:left;
+               clear:left;
+               }
+               
