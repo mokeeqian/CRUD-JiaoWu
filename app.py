@@ -8,7 +8,6 @@
 #  together with this source code.
 #  Have fun with your favor!
 import datetime
-import json
 from flask import Flask, request, render_template, flash, session
 from flask import redirect
 from flask import url_for
