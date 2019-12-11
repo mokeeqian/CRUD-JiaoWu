@@ -208,7 +208,7 @@
                 layer.close(index);
               });
 
-              //FIXME: 由于设计问题，插入记录必须点击修改， 才会提交到后台。。。
+              //FIXME: 由于设计问题，插入记录是以默认的值传递到后台插入数据库的，然后需要用户自己修改。。。。
                 // 这样就导致一些隐含Bug.....后面有时间我会修复
             } else if(obj.event === 'edit'){    // 编辑
               //layer.alert('当前行数据：<br>'+ JSON.stringify(data))
