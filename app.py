@@ -1,12 +1,18 @@
 #!/bin/env python3
 # encoding = utf-8
 
+#
 #  Copyright (c) 2019.  MIT license
 #  Jipeng Qian.
 #  This is a copyrighted source code under MIT license,
 #  you should receive a copy of the copyright,
 #  together with this source code.
 #  Have fun with your favor!
+#  Bugs and Suggestions Please Mail to mokeeqian@gmail.com
+#
+
+
+
 import datetime
 from flask import Flask, request, render_template, flash, session
 from flask import redirect
@@ -462,7 +468,6 @@ def test():
 def signout():
     session.pop("username")
     return render_template('signin.html', posts=['你已退出系统，欢迎再次登录！'])
-
 
 
 if __name__ == "__main__":
