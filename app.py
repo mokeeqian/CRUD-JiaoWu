@@ -452,9 +452,18 @@ def blog():
     return render_template('blog.html')
 
 
+# TODO: 访问天气api，获取实时天气预报， 需要联网
+# http://wthrcdn.etouch.cn/weather_mini?city=马鞍山
 @app.route('/weather')
 def weather():
     return render_template('weather.html')
+
+
+# TODO: 抓取教务系统上的信息
+@app.route('/fakeJiaoWu')
+def fakeJiaoWu():
+    return render_template('fake_it.html')
+
 
 @app.route('/test', methods=['GET','POST'])
 def test():
