@@ -11,12 +11,12 @@ import json
 with open('.\\score.json', 'r', encoding='utf8') as f:
     source = f.read()
 
-source = json.loads(source)
+    source = json.loads(source)
 
-zhuguan = list()
-tingli = list()
-yuedu = list()
+    zhuguan = list()
+    tingli = list()
+    yuedu = list()
 
-for item in source:
-    if item['class'] == '价191':
-        zhuguan.append(item['主观'])
+    for item in source:
+        if item['class'] == '价191':
+            zhuguan.append(item['主观'])
